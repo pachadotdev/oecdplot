@@ -1,0 +1,94 @@
+# Min-max plots
+
+We will work towards creating the area plot below. We will take you from a basic bar plot and explain all the customisations we add to the code step-by-step.
+
+This plot is build by adding _layers_ of different geoms, using the `geom_line()` and `geom_point()` functions. The first one add the vertical grey line behind the dots, and the second adds the overlaying points. Defining the shape parameter here adds a visual aid to make it easier to differentiate the different values.
+
+```{r maxmin_final, echo = FALSE}
+library(oecdplot)
+library(ggplot2)
+
+load_oecd_fonts()
+
+p <- ggplot(pta, aes(x = country, y = pct_pta / 100)) +
+  geom_line(colour = "grey") +
+  geom_point(
+    aes(shape = category),
+    colour = oecd_clrs(n = 1, option = "darkblue"),
+    size = 3
+  ) +
+  theme_oecd() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    x = "Country",
+    y = "%",
+  )
+p
+```
+
+## Basic graph
+
+You can use fonts such as Arial Narrow within `ggplot2`. This package allows that with a dedicated function. The first thing to do is load in the libraries and data, as below:
+
+```{r minmax_pkgs}
+library(oecdplot)
+library(ggplot2)
+
+load_oecd_fonts()
+```
+
+We will be working with the `pta` dataset, which is included in the package.
+
+```{r minmax_data}
+pta
+```
+
+To initialise a plot we tell ggplot that `pta` is our data, and specify the variables on each axis. We then instruct ggplot to render this as an bar plot by adding the `geom_line()` and `geom_point()` functions. The colour argument is outside `aes()` in order to use the same colour for each figure.
+
+```{r maxmin_1}
+p <- ggplot(pta, aes(x = country, y = pct_pta / 100)) +
+  geom_line(colour = "grey20") +
+  geom_point(
+    aes(shape = category),
+    colour = oecd_clrs(n = 1, option = "darkblue"),
+    size = 3
+  )
+p
+```
+
+## Adjusting theme
+
+We can change the overall look of the graph using themes. We'll start using a simple theme customisation by adding `theme_oecd() ` after `ggplot()`.
+
+```{r maxmin_2}
+p <- p +
+  theme_oecd()
+p
+```
+
+## Adjusting axis scale
+
+To change the scale to percentage, we can use the `percent()` function from the `scales` package, which comes with `ggplot2`.
+
+```{r maxmin_3}
+p <- p +
+  scale_y_continuous(
+    labels = scales::percent,
+    expand = c(0,0),
+    limits = c(0,1)
+  )
+p
+```
+
+## Adding labels
+
+To obtain the plot from the start of this section, we use the `labs()` function.
+
+```{r maxmin_4}
+p <- p +
+  labs(
+    x = "Country",
+    y = "%"
+  )
+p
+```

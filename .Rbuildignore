@@ -1,0 +1,15 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^00-examples.R$
+^LICENSE\.md$
+^dev$
+^TODO$
+^updated-packages.txt$
+^README\.Rmd$
+^\.gitlab-ci\.yml$
+^docs$
+^CONTRIBUTING\.md$
+^codemeta\.json$
+^fonts$
+^publication$
+^tables_graphs$

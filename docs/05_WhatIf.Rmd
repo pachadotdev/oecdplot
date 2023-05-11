@@ -1,0 +1,158 @@
+# What If?
+
+## Exporting plots for official publication
+
+Suppose you have the next plot.
+
+```{r whatif_emf_1}
+library(ggplot2)
+library(oecdplot)
+
+load_oecd_fonts()
+
+ggplot(data = pta, aes(x = country, y = pct_pta / 100, fill = category)) +
+  geom_col(position = "dodge2", width = 0.7) +
+  theme_oecd() +
+  scale_fill_oecd_d(option = "darkblue", direction = -1) +
+  scale_y_continuous(labels = scales::percent, expand = c(0,0)) +
+  facet_wrap(~category, ncol = 1) +
+  labs(
+    x = "Country",
+    y = "%"
+  )
+```
+
+We would only need to use the `save_oecd_chart()` function which already provides
+PAC-compatible aesthetic elements including dimensions and formats.
+
+```{r whatif_emf_2, eval = FALSE}
+save_oecd_chart(
+  file_name = "Figure 1",
+  plot = last_plot(),
+  folder = "my_folder/",
+  size = "1/2",
+  plot_title = "Figure 1. Regional disparities in protected terrestrial areas, 2017",
+  plot_note = "Protected terrestrial areas refers to all protected areas recorded 
+   in the World Database on Protected Areas (WDPA)",
+  plot_source = "OECD calculations based World Database on Protected Areas (WDPA). 
+   OECD (2020), OECD Regional Statistics (database)",
+  statlink_create = TRUE,
+  statlink_dataframe = pta,
+  statlink_filename = "pta",
+  box = FALSE,
+  custom_size = NULL,
+  format = "emf"
+)
+```
+
+In the code above we can also pass `format = c("png","emf")` to create two files
+at the same time.
+
+## Trailing and leading spaces in the plotting area
+
+Consider the next plot, where we already applied the OECD theme and formatted
+the labels as percentage.
+
+```{r whatif_whitespace_1}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(oecdplot)
+
+load_oecd_fonts()
+
+pta2 <- pta %>% 
+  filter(category == "Country Value") %>% 
+  mutate(pct_non_pta = 100 - pct_pta) %>% 
+  pivot_longer(pct_pta:pct_non_pta) %>% 
+  mutate(value = value / 100)
+
+pta2_plot <- pta2 %>%
+  ggplot(aes(x = value, y = country)) +
+  geom_col(aes(fill = name), width = 0.4) +
+  scale_fill_oecd_d() +
+  labs(y = "Country", x = "%") +
+  theme_oecd(base_x_axis_angle = 0)+
+  scale_x_continuous(
+    labels = scales::percent_format(accuracy = 1)
+  )
+
+pta2_plot
+```
+
+One option to remove the whitespace in the plot is to use the `expand` 
+parameter, in order to start from the (0,0) coordinate.
+
+```{r whatif_whitespace_2}
+pta2_plot + 
+  scale_x_continuous(
+    expand = c(0,0),
+    labels = scales::percent_format(accuracy = 1)
+  )
+```
+
+This plot has a problem, the "100%" label is outside the margins, which is
+covered in then next what-if.
+
+## The x-axis contains off-margin labels
+
+Consider the next plot, where we added different adjustments, such as
+the x-axis labels rotation.
+
+```{r whatif_offmargin_3}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(oecdplot)
+
+load_oecd_fonts()
+
+pta2 <- pta %>% 
+  filter(category == "Country Value") %>% 
+  mutate(pct_non_pta = 100 - pct_pta) %>% 
+  pivot_longer(pct_pta:pct_non_pta) %>% 
+  mutate(value = value / 100)
+
+pta2_plot <- pta2 %>%
+  ggplot(aes(x = value, y = country)) +
+  geom_col(aes(fill = name), width = 0.4) +
+  scale_fill_oecd_d() +
+  labs(y = "Country", x = "%") +
+  theme_oecd(base_x_axis_angle = 0)+
+  scale_x_continuous(
+    expand = c(0,0), 
+    labels = scales::percent_format(accuracy = 1)
+  )
+
+pta2_plot
+```
+
+In this case, we can alter the x-axis scale options to define the range
+to go from 0 to 1.01 (or 1.02-1.05).
+
+```{r whatif_offmargin_4}
+pta2_plot +
+  scale_x_continuous(
+    expand = c(0,0), 
+    limits = c(0,1.01),
+    labels = scales::percent_format(accuracy = 1)
+  )
+```
+
+An alternative solution could be rotating the labels.
+
+```{r whatif_offmargin_5}
+pta2_plot +
+  theme_oecd(base_x_axis_angle = 30)
+```
+
+## Too many lines/columns
+
+One option is to use ggplot2's `facet_wrap()`, as in the next example.
+
+```{r}
+ggplot(pta %>% filter(country %in% c("CAN", "USA", "MEX"))) +
+  geom_col(aes(x = category, y = pct_pta), fill = oecd_clrs()[1]) +
+  facet_wrap(~country)
+```
+

@@ -1,0 +1,111 @@
+# Shortcuts
+
+We will work towards creating different plots by using shortcut functions within
+this package.
+
+## Column plot
+
+Simple column plot:
+```{r sc1}
+oecd_col(data = pta, x = country, y = pct_pta,  colour = category)
+```
+
+Stacked column plot:
+```{r sc2}
+oecd_col(data = pta, x = country, y = pct_pta, colour = category, stacked = T)
+```
+
+Stacked column plot with y-axis as percentage:
+```{r sc3}
+pta2 <- pta
+pta2$pct_pta <- pta2$pct_pta / 100
+oecd_col(data = pta2, x = country, y = pct_pta, colour = category) +
+  scale_y_continuous(labels = scales::percent, expand = c(0,0))
+```
+
+Faceted column plot with y-axis as percentage:
+```{r sc4}
+pta2 <- pta
+pta2$pct_pta <- pta2$pct_pta / 100
+
+oecd_col(data = pta2, x = country, y = pct_pta, colour = category,
+         facet = category) +
+  scale_y_continuous(labels = scales::percent, expand = c(0,0))
+```
+
+## Line plot
+
+Simple column plot:
+```{r sl1}
+oecd_line(pta, x = country, y = pct_pta, colour = category, group = category)
+```
+
+Faceted line plot:
+```{r sl2}
+oecd_line(pta,
+  x = country, y = pct_pta, colour = category, group = category,
+  facet = category
+)
+```
+
+Faceted line plot with custom ordering:
+```{r sl3}
+oecd_line(pta,
+  x = country, y = pct_pta, colour = category, group = category,
+  facet = category, facet_ncol = 1
+)
+```
+
+## Scatterplot
+
+Simple scatterplot:
+```{r sp1}
+oecd_point(pta, x = country, y = pct_pta, colour = category, group = category)
+```
+
+Faceted scatterplot:
+```{r sp2}
+oecd_point(pta,
+  x = country, y = pct_pta, colour = category, group = category,
+  facet = category
+)
+```
+
+Faceted line plot with custom ordering:
+```{r sp3}
+oecd_point(pta,
+  x = country, y = pct_pta, colour = category, group = category,
+  facet = category, facet_ncol = 1
+)
+```
+
+Options specific to scatterplots:
+```{r sp4}
+oecd_point(pta,
+  x = country, y = pct_pta, colour = category, group = category,
+  facet = category, facet_ncol = 1, size = log(pct_pta)
+)
+```
+
+# Max-min plot
+
+Simple max-min plot:
+```{r sm1}
+oecd_maxmin(pta, x = country, y = pct_pta, colour = category, group = category)
+```
+
+Faceted max-min plot:
+```{r sm2}
+oecd_maxmin(pta,
+  x = country, y = pct_pta, colour = category, group = category,
+  facet = category
+)
+```
+
+Faceted max-min plot with custom ordering:
+```{r sm3}
+oecd_maxmin(pta,
+  x = country, y = pct_pta, colour = category, group = category,
+  facet = category, facet_ncol = 1
+)
+```

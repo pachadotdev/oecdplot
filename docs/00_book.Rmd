@@ -1,0 +1,94 @@
+---
+title: "OECDPLOT REFERENCE MANUAL"
+documentclass: report
+fontsize: 11pt
+classoption: oneside
+geometry: verbose,letterpaper,tmargin=25mm,bmargin=25mm,lmargin=20mm,rmargin=20mm
+subparagraph: true
+output: 
+  pdf_document: 
+    includes:
+      in_header: preamble.tex
+    keep_tex: yes
+    number_sections: true
+    latex_engine: pdflatex
+    md_extensions: -autolink_bare_uris
+---
+
+```{r setup, cache = FALSE, echo = FALSE, message = FALSE, warning = FALSE, tidy = FALSE}
+knitr::opts_chunk$set(message = F, error = F, warning = F, comment = NA, fig.align = 'center', dpi = 100, fig.width=7.0, fig.height=4.0, tidy = F, cache.path = 'book_cache/', fig.path = 'book_figures/', dev = 'cairo_pdf')
+```
+
+\pagenumbering{gobble}
+<!--Cover illustration-->
+\ThisLLCornerWallPaper{1}{cover.pdf}
+\begin{center} \end{center} <!--un truco para que no se superponga con la pag2-->
+\cleardoublepage
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\begin{titlepage}
+{\sffamily 
+	\begin{center}
+		\vspace*{\fill}
+		\HRule \\[0.4cm]{
+		\huge \bfseries OECDPLOT REFERENCE MANUAL}\\ [0.4cm]
+		\HRule \\[1.5cm]
+		%Authors
+		\begin{minipage}{0.9\textwidth}
+		\begin{center}
+		\large
+		MAURICIO VARGAS SEP\'ULVEDA
+		\end{center}
+		\end{minipage}
+	\vfill
+	\end{center}}
+\end{titlepage}
+\setcounter{page}{2}
+\setlength\parindent{0pt} <!-- Removes all indentation from paragraphs-->
+\renewcommand{\labelenumi}{\alph{enumi}.} <!-- Make numbering in the enumerate environment by letter rather than number (e.g. section 6)-->
+\newpage
+
+\textbf{OECDPLOT REFERENCE MANUAL}
+
+Mauricio Vargas Sep\'ulveda
+
+This version was published on `r Sys.Date()`.
+
+\newpage
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapter*{What to expect from this book}
+\addcontentsline{toc}{chapter}{What to expect from this book}
+
+This is a technical book. The book aims to get straight to the point, and the writing style is similar to a recipe with detailed instructions. It is assumed that you know the basics of R and that you want to learn to create beautiful plots according to OECD style rules.
+
+Every chapter is self contained. You can read the whole book or go to a chapter or section of your interest, and we are sure that it will be easy to understand the instructions and reproduce our examples without reading the earlier chapters.
+
+\newpage
+
+```{r child = '01_Barplot.Rmd', eval = T}
+```
+
+```{r child = '02_Scatterplot.Rmd', eval = T}
+```
+
+```{r child = '03_MaxMin.Rmd', eval = T}
+```
+
+```{r child = '04_Shortcuts.Rmd', eval = T}
+```
+
+```{r child = '05_WhatIf.Rmd', eval = T}
+```
+
+\newpage
+
+\thispagestyle{empty}
+\pagecolor{mypurple}\afterpage{\nopagecolor}
+
+\null
+\vfill

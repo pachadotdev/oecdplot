@@ -1,0 +1,48 @@
+Type: Package
+Package: oecdplot
+Title: Wrappers for 'ggplot2'
+Version: 2023.02.11
+Authors@R: c(
+    person("Mauricio", "Vargas", , "mv.sepulveda@mail.utoronto.ca", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-1017-7574")),
+    person("Ana", "Moreno Monroy", , "Ana.MorenoMonroy@oecd.org", role = "ctb",
+           comment = c(ORCID = "0000-0002-8282-4067")),
+    person("Bethany", "Millar-Powell", , "Bethany.Millar-Powell@oecd.org", role = "ctb"),
+    person("Harriet", "Goers", , "Harriet.GOERS@oecd.org", role = "ctb",
+           comment = c(ORCID = "0000-0003-1017-7574")),
+    person("Maria Paula", "Caldas", , "MariaPaula.CALDAS@oecd.org", role = "ctb",
+           comment = c(ORCID = "0000-0003-1017-7574")),
+    person("OECD", role = c("dtc", "cph", "fnd"))
+  )
+Description: Provides themes and scales (i.e. color and fill) according to
+    PAC style rules.
+License: MIT + file LICENSE
+URL: https://algobank.oecd.org:4430/r-oecd-graphs/oecdplot
+BugReports: https://algobank.oecd.org:4430/r-oecd-graphs/oecdplot/-/issues
+Depends: 
+    R (>= 2.10)
+Imports:
+    devEMF (>= 4.1-1),
+    dplyr,
+    forcats,
+    ggplot2 (>= 3.3.5),
+    grDevices,
+    grid,
+    lubridate,
+    magrittr,
+    openxlsx,
+    purrr,
+    rlang,
+    scales,
+    showtext,
+    stats,
+    stringr,
+    svglite,
+    systemfonts,
+    tidyr
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.1
+Suggests: 
+    testthat (>= 3.0.0)

@@ -1,0 +1,102 @@
+# Scatter plots
+
+We will work towards creating the area plot below. We will take you from a basic bar plot and explain all the customisations we add to the code step-by-step.
+
+```{r scatterplot_final, echo = FALSE}
+library(oecdplot)
+library(ggplot2)
+
+load_oecd_fonts()
+
+p <- ggplot(data = pta, aes(x = country, y = pct_pta / 100, colour = category)) +
+  geom_point() +
+  theme_oecd() +
+  scale_colour_oecd_d(option = "darkblue", direction = -1) +
+  scale_y_continuous(labels = scales::percent, expand = c(0,0)) +
+  facet_wrap(~category, ncol = 1) +
+  labs(
+    x = "Country",
+    y = "%"
+  )
+p
+```
+
+## Basic graph
+
+You can use fonts such as Arial Narrow within `ggplot2`. This package allows that with a dedicated function. The first thing to do is load in the libraries and data, as below:
+
+```{r scatterplot_pkgs}
+library(oecdplot)
+library(ggplot2)
+
+load_oecd_fonts()
+```
+
+We will be working with the `pta` dataset, which is included in the package.
+
+```{r scatterplot_data}
+pta
+```
+
+To initialise a plot we tell ggplot that `pta` is our data, and specify the variables on each axis. We then instruct ggplot to render this as an bar plot by adding the `geom_col()` function. The `position` argument makes the categories appear side-by-side, instead of stacking them on top of each other.
+
+```{r scatterplot_1}
+p <- ggplot(data = pta, aes(x = country, y = pct_pta / 100, colour = category)) +
+  geom_point(position = "dodge2")
+p
+```
+
+## Adjusting theme
+
+We can change the overall look of the graph using themes. We'll start using a simple theme customisation by adding `theme_oecd() ` after `ggplot()`.
+
+```{r scatterplot_2}
+p <- p +
+  theme_oecd()
+p
+```
+
+## Adjusting color palette
+
+To change the colours, we use the OECD scales. Note that you can reference the specific colours you'd like to use with specific HEX codes. You can also reference colours by name, with the full list of colours recognised by R [here](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Here we are using some arguments inside the scale function, in order to show some of the personalization alternatives.
+
+```{r scatterplot_3}
+p <- p +
+  scale_colour_oecd_d(option = "darkblue", direction = -1)
+p
+```
+
+## Adjusting axis scale
+
+To change the scale to percentage, we can use the `percent()` function from the `scales` package, which comes with `ggplot2`.
+
+```{r scatterplot_4}
+p <- p +
+  scale_y_continuous(labels = scales::percent, expand = c(0,0))
+p
+```
+
+## Facetting
+
+In order to divide the resulting plot into a 3-in-1 plot, we use the
+`facet_wrap()` function. The `ncol` argument is used to arrange the resulting
+plots in one column, instead of creating a three columns layout in this case.
+
+```{r scatterplot_5}
+p <- p +
+  facet_wrap(~category, ncol = 1)
+p
+```
+
+## Adding labels
+
+To obtain the plot from the start of this section, we use the `labs()` function.
+
+```{r scatterplot_6}
+p <- p +
+  labs(
+    x = "Country",
+    y = "%"
+  )
+p
+```
